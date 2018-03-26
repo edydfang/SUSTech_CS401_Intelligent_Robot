@@ -9,14 +9,17 @@ dot, = ax.plot([], [], 'ro')
 x = list()
 y = list()
 
+
 def update_dot(newd):
     dot.set_data(newd[0], newd[1])
     return dot,
+
 
 def gen_dot():
     for data in zip(x, y):
         newdot = [data[0], data[1]]
         yield newdot
+
 
 def init():
     ax.set_xlim(-5, 5)
@@ -41,17 +44,19 @@ def main():
     theta_t = 0
 
     delta_t = 0.01
-    for _ in range(0, int(100/delta_t)):
+    for _ in range(0, int(100 / delta_t)):
         x_t += 0.5 * (v_l + v_r) * cos(theta_t) * delta_t
         y_t += 0.5 * (v_l + v_r) * sin(theta_t) * delta_t
-        theta_t += (v_r - v_l)/l * delta_t
+        theta_t += (v_r - v_l) / l * delta_t
         x.append(x_t)
         y.append(y_t)
         theta.append(theta_t)
 
-    ani = animation.FuncAnimation(fig, update_dot, frames = gen_dot, interval = 100, init_func=init)
-    ani.save('diff_4_6.gif', writer='imagemagick', fps=30)
+    ani = animation.FuncAnimation(
+        fig, update_dot, frames=gen_dot, interval=10, init_func=init)
+    ani.save('diff_{0}_{1}.gif'.format(v_l, v_r), writer='imagemagick', fps=60)
     plt.show()
+
 
 if __name__ == '__main__':
     main()
